@@ -55,7 +55,7 @@ int main() {
     governor.gather();
     spy.tax();
 
-    // Expected exception - Judge cannot undo tax
+    // Expected exception - Judge cannot undo tax(should be gather not tax)
     try{
         judge.undo(governor);
     } catch (const std::exception &e) {

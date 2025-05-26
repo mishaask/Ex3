@@ -10,6 +10,8 @@ enum class Role
 
 class Player {
 
+    private:
+        int userid;
     public:
         std::string name;
         Role role;
