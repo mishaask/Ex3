@@ -26,6 +26,7 @@ class Player {
         bool sanctioned = false;    
         bool endTurn = false;
         bool blockedFromArrest = false;
+        bool arrestBlocked = false;
     
         //default constructor
         Player()
@@ -40,9 +41,6 @@ class Player {
         Player( const Player& other)
             :name(other.name),userid(other.userid),role(other.role),coins(other.coins){}
 
-        // //userid constructor
-        // Player(int userid)
-        //     :name("null"),role(Role::user),coins(Start_Coin_value){}
         
         //copy assignment operator
         Player& operator=(const Player& other){

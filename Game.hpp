@@ -12,16 +12,35 @@
 /// @brief This class will handle all the GameLogic
 class Game{
 
-    private:
     int turnCounter;
+    int currentPlayerIndex;
     Player* currentTurn;
     Player* Winner;
+    Player* latestVictim;
     std::vector<Player*> players;
-    int currentPlayerIndex = 0;
+
+    //sf::RenderWindow* gameWindow;
+    //std::vector<sf::RectangleShape> playerBoxes;
+    //std::vector<sf::Text> playerInfo;
+    //sf::RectangleShape viewCoinsBtn;
+    //sf::Text viewCoinsText;
+    bool showAllCoins;
+    //std::vector<sf::RectangleShape> actionBtns;
+    //std::vector<sf::Text> actionBtnText;
+    //sf::RectangleShape endTurnBtn;
+    //sf::Text endTurnText;
+    //sf::RectangleShape spyBlockBtn;
+    //sf::Text spyBlockText;
 
 
     // helper from HomeScreen to center text in a rectangle:
     static void centerText(sf::Text& txt, const sf::RectangleShape& btn);
+
+    Player* chooseVictim(const std::string& title);
+
+    bool governorBlockPrompt(const std::string& governorName);
+
+    void showWinnerWindow();
 
     public:
 
@@ -30,8 +49,6 @@ class Game{
     // Game(int playerCount):turnCounter(0), currentTurn(nullptr){
 
     // }
-    
-
     ~Game(){
         for (Player* p : players)
         delete p;
