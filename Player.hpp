@@ -22,7 +22,10 @@ class Player {
         std::string name;
         int userid = -1;//will indicate turns, -1 indicates not playing yet
         Role role;
-        int coins;    
+        int coins;
+        bool sanctioned = false;    
+        bool endTurn = false;
+        bool blockedFromArrest = false;
     
         //default constructor
         Player()
@@ -51,26 +54,33 @@ class Player {
             return *this;
         }
 
-        virtual ~Player(){}
+        virtual ~Player() {};
 
         void setId(int id){
             this->userid = id;
         }
 
-        void gather(){}//recieve 1 coin, no cost, can be stopped using sanction
+        void gather();//recieve 1 coin, no cost, can be stopped using sanction
 
-        virtual void tax(){}//recieve 2 coins, no cost, can be blocked
+        virtual void tax();//recieve 2 coins, no cost, can be blocked
         //tax's implementation is also role dependent so its better that its inheritors get advantage in the inheritance
     
-        void bribe(){}//pay 4 coins, make another action.
+        void bribe();//pay 4 coins, make another action.
         //number of actions per turn can change
 
-        void arrest(){}//choose a player, steal 1 coin, cant be used on same target twice in a row
+        void arrest(Player* victim, Player*& latestVictim);//choose a player, steal 1 coin, cant be used on same target twice in a row
 
-        void sanction(){}//cost 3 coins, the player chooses another player and blocks him from using gather or tax untill his next turn.
+        //void steal(Player* thief, Player* victim);
+
+        void sanction(Player* victim);//cost 3 coins, the player chooses another player and blocks him from using gather or tax untill his next turn.
         
-        void coup(){}//costs 7 coins, can be blocked if certain condition are met, the player chooses another player and removes him from the game
-        
+        void coup(Player* victim);//costs 7 coins, can be blocked if certain condition are met, the player chooses another player and removes him from the game
+
+        void endTurnhelp();
+
+        std::string roleToString(Role r) const ;
+     
+        std::string stringg() const;   
 
 
 

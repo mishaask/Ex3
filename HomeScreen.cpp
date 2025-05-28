@@ -281,13 +281,16 @@ int HomeScreen::openPlayerCountWindow()
             {
                 sf::Vector2f m( e.mouseButton.x, e.mouseButton.y);
 
-                if (decBtn.getGlobalBounds().contains(m) && count > MIN)
+                if (decBtn.getGlobalBounds().contains(m) && count > MIN){
                     --count;
-                else if (incBtn.getGlobalBounds().contains(m) && count < MAX)
+                    std::cout<<"count is "<<count<< "\n";}
+                else if (incBtn.getGlobalBounds().contains(m) && count < MAX){
                     ++count;
+                    std::cout<<"count is "<<count<< "\n";}
                 else if (startBtn.getGlobalBounds().contains(m))
                 {
                     cwindow.close();
+                    std::cout<<"count is "<<count<< "\n";
                     return count;
                 }
                 else if (exitBtn.getGlobalBounds().contains(m))
