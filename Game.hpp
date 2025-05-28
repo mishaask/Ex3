@@ -1,4 +1,6 @@
 #pragma once
+
+#include <random>
 #include "Player.hpp"
 /// @brief This class will handle all the GameLogic
 class Game{
@@ -9,14 +11,30 @@ class Game{
     std::vector<Player*> players;
 
 
+    // helper from HomeScreen to center text in a rectangle:
+    static void centerText(sf::Text& txt, const sf::RectangleShape& btn);
+
     public:
 
-    Game(){}
+    Game():turnCounter(0), currentTurn(nullptr){}
 
-    Game(int playerCount){}
+    // Game(int playerCount):turnCounter(0), currentTurn(nullptr){
 
-    void assignRole(){}//בתחילת המשחק כל שחקן שולף קלף מהערימה. כל קלף מתאר תפקיד אותו יכול לממש השחקן. במרכז השולחן ישנה קופה של מטבעות.
-    //random number generator from 1-6/7 and assign accordingly. no need to remove picked option as there is no cap on number of roles
+    // }
+    
 
+    ~Game(){
+        for (Player* p : players)
+        delete p;
+    }
 
+    /// Pop up a small window to name a single player.
+    /// Returns true if user pressed “Accept”, false if “Cancel” (or closed).
+    bool getsetName(Player* p, std::size_t index);
+
+    /// Randomly pick & assign a Role, return it
+    Role assignRole(Player* p);
+
+    /// Build players, name them, assign roles, then launch the SFML game window
+    void launchGame(const sf::VideoMode& videoMode, int playerCount);
 };

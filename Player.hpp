@@ -1,33 +1,45 @@
 #pragma once
 
+#include <iostream>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+
+
 #include <string>
 
 const int Start_Coin_value = 0;
 
 enum class Role
 {user=0, baron=1, general=2, governor=3,
-             judge=4, merchant=5, spy=6, spectator =-1};
+             judge=4, merchant=5, spy=6, spectator =-1};//spectator - dead, user - main user
 
 class Player {
 
-    private:
-        int userid;
     public:
         std::string name;
+        int userid = -1;//will indicate turns, -1 indicates not playing yet
         Role role;
-        int coins;
+        int coins;    
+    
         //default constructor
         Player()
             :name("null"),role(Role::user),coins(Start_Coin_value){}
 
         //constructor with parameters: instead of passing name by value(copying the original inputed string into std::string name) we will pass it by refrence (const T&) 
         //to assure we dont make unnecesary copies wasting memory and we assure no changes happen to the original by using const
-        Player(const std::string& namee, Role rolee)
-            :name(namee),role(rolee),coins(Start_Coin_value){}
+        Player(const std::string& namee,int useridd, Role rolee)
+            :name(namee),userid(useridd),role(rolee),coins(Start_Coin_value){}
 
         //copy constructor
         Player( const Player& other)
-            :name(other.name),role(other.role),coins(other.coins){}
+            :name(other.name),userid(other.userid),role(other.role),coins(other.coins){}
+
+        // //userid constructor
+        // Player(int userid)
+        //     :name("null"),role(Role::user),coins(Start_Coin_value){}
         
         //copy assignment operator
         Player& operator=(const Player& other){
@@ -40,6 +52,10 @@ class Player {
         }
 
         virtual ~Player(){}
+
+        void setId(int id){
+            this->userid = id;
+        }
 
         void gather(){}//recieve 1 coin, no cost, can be stopped using sanction
 
