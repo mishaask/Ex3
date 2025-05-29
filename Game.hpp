@@ -19,6 +19,7 @@ class Game{
     Player* latestVictim;
     std::vector<Player*> players;
     bool showAllCoins;
+    bool coins10Check = false;
 
 
     /**

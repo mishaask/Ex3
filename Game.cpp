@@ -583,6 +583,48 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
     while (gameWindow.isOpen()) {
 
 
+
+        if(this->coins10Check == false){
+        this->coins10Check = true;
+        // If any player has ≥10 coins and hasn’t acted yet, they immediately Coup
+        for (size_t j = 0; j < players.size(); ++j) {
+            Player* rich = players[j];
+            if (rich->coins >= 10
+             && rich->role != Role::spectator
+             && !rich->endTurn)
+            {
+                // pick the first alive other than themselves:
+                Player* victim = nullptr;
+                for (Player* p : players) {
+                    if (p != rich && p->role != Role::spectator) {
+                        victim = p;
+                        break;
+                    }
+                }
+                if (victim) {
+                    rich->coins -= 7;      // pay for coup
+                    rich->coup(victim);     // perform the coup
+                    rich->endTurn = true;   // mark as acted
+                }
+                // if this was the current player, reset “view all coins”:
+                if (j == static_cast<size_t>(currentPlayerIndex))
+                    showAllCoins = false;
+                break; // only one auto-coup per iteration
+                }
+                }
+                //Check if someone won
+                int alive = 0;
+                for (Player* p : players)
+                if (p->role != Role::spectator) {
+                alive++;
+                Winner = p;
+                }
+                if (alive == 1) {
+                gameWindow.close();
+                showWinnerWindow();
+                }
+    }
+
         // Only give the +1 if this is a fresh turn (endTurn == false)
         // and the player is a Merchant with at least 3 coins
         if (!players[currentPlayerIndex]->endTurn && players[currentPlayerIndex]->role == Role::merchant && players[currentPlayerIndex]->coins >= 3 && players[currentPlayerIndex]->merchantPassiveTriggered == false) {
@@ -641,6 +683,7 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                             if (!me->sanctioned && !me->endTurn) me->gather();
                             me->endTurn = true;
                             players[currentPlayerIndex]->merchantPassiveTriggered = false;
+                            this->coins10Check = false;
                             break;
                           case 1: { // Tax
                             if (!me->sanctioned && !me->endTurn) {
@@ -654,6 +697,7 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                             if (!blocked) me->tax();
                             me->endTurn = true;
                             players[currentPlayerIndex]->merchantPassiveTriggered = false;
+                            this->coins10Check = false;
 
                             }
                             break;
@@ -739,9 +783,10 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                     // advance turn
                     do {
                       currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
-                    } while (players[currentPlayerIndex]->role == Role::spectator);
                     players[currentPlayerIndex]->endTurn = false;
                     showAllCoins = false;
+                    this->coins10Check = false; 
+                    } while (players[currentPlayerIndex]->role == Role::spectator);
                 }
             }
         }
