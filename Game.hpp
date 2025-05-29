@@ -40,6 +40,10 @@ class Game{
 
     bool governorBlockPrompt(const std::string& governorName);
 
+    bool blockCoupPrompt(const std::string &generalName);
+
+    bool blockBribePrompt(const std::string &judgeName);
+
     void showWinnerWindow();
 
     public:

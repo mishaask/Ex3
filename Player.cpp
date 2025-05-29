@@ -1,8 +1,6 @@
 #include "Player.hpp"
 
 void Player::gather(){
-    if(this->role == Role::merchant && this->coins > 3)
-        this->coins +=1;
     if (!this->sanctioned)
         this->coins += 1; 
     this->endTurnhelp();
@@ -10,18 +8,14 @@ void Player::gather(){
 
 void Player::tax()
 {
-    if(this->role == Role::merchant && this->coins > 3)
-        this->coins +=1;
     if(this->role == Role::governor){
     this->coins += 3;
     } else {this->coins += 2;}
     this->endTurnhelp();
 }
-//COSTS MONEY, IN GAME LOGIC MAKESURE MONEY IS HAD BEFORE GETTING HERE
+
 void Player::bribe()
 {
-    if(this->role == Role::merchant && this->coins > 3) //questionable/ lazy
-        this->coins +=1;
     this->coins -= 4;
     this->endTurn = false;
 }
@@ -29,8 +23,6 @@ void Player::bribe()
 void Player::arrest(Player *victim, Player*& latestVictim)
 {
 
-    if(this->role == Role::merchant && this->coins > 3)
-        this->coins +=1;
     if(victim->role == Role::merchant){
         victim->coins -=2;  
      } else{
@@ -44,11 +36,9 @@ void Player::arrest(Player *victim, Player*& latestVictim)
     this->endTurnhelp();
 
 }
-//COSTS MONEY, IN GAME LOGIC MAKESURE MONEY IS HAD BEFORE GETTING HERE
+
 void Player::sanction(Player *victim)
 {
-    if(this->role == Role::merchant && this->coins > 3)
-        this->coins +=1;
     this->coins -= 3;
     victim->sanctioned = true;
     if(victim->role == Role::baron)
@@ -57,12 +47,10 @@ void Player::sanction(Player *victim)
         this->coins -=1;
     this->endTurnhelp();
 }
-//COSTS MONEY, IN GAME LOGIC MAKESURE MONEY IS HAD BEFORE GETTING HERE
+
 void Player::coup(Player *victim)
 {
-    if(this->role == Role::merchant && this->coins > 3)
-        this->coins +=1;
-    this->coins -= 7;
+    //this->coins -= 7;
     victim->role = Role::spectator;
     this->endTurnhelp();
 }

@@ -26,7 +26,7 @@ class Player {
         bool sanctioned = false;    
         bool endTurn = false;
         bool blockedFromArrest = false;
-        bool arrestBlocked = false;
+        bool merchantPassiveTriggered = false;
     
         //default constructor
         Player()
