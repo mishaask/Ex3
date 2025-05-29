@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "Player.hpp"
 
 void Player::gather(){

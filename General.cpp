@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "General.hpp"
 
 General::General(const std::string& name, int userid)

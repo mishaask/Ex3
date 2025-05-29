@@ -1,4 +1,0 @@
-Start 
-The result is 2 
-The result is 3 
-The result is 4 

@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "Judge.hpp"
 
 Judge::Judge(const std::string& name, int userid)

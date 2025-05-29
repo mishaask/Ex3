@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "Baron.hpp"
 
 Baron::Baron(const std::string& name, int userid)

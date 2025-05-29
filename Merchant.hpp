@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #pragma once
 
 #include "Player.hpp"
@@ -13,6 +14,4 @@ public:
     virtual ~Merchant();
     bool passiveTriggered = false;
 
-    // void startTurnBonus();
-    // void onArrestPenalty(Player* origin);
 };

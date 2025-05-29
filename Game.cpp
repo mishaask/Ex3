@@ -1,3 +1,5 @@
+//mishaaskarov@gmail.com
+
 #include "Game.hpp"
 
 
@@ -19,13 +21,43 @@ Role Game::assignRole(std::vector<Player*>& players, std::size_t idx) {
     Player* oldP = players[idx];
     std::string nm = oldP->name;
 
-    //If the name matches a role, honor it:
-    if (nm == "Baron")    { delete oldP; players[idx] = new Baron(*oldP);  return Role::baron; }
-    if (nm == "Governor") { delete oldP; players[idx] = new Governor(*oldP); return Role::governor; }
-    if (nm == "Spy")      { delete oldP; players[idx] = new Spy(*oldP);     return Role::spy; }
-    if (nm == "General")  { delete oldP; players[idx] = new General(*oldP); return Role::general; }
-    if (nm == "Judge")    { delete oldP; players[idx] = new Judge(*oldP);   return Role::judge; }
-    if (nm == "Merchant") { delete oldP; players[idx] = new Merchant(*oldP);return Role::merchant; }
+    // If the name matches a role, honor it:
+    if (nm == "Baron") {
+        Player* newP = new Baron(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::baron;
+    }
+    if (nm == "Governor") {
+        Player* newP = new Governor(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::governor;
+    }
+    if (nm == "Spy") {
+        Player* newP = new Spy(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::spy;
+    }
+    if (nm == "General") {
+        Player* newP = new General(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::general;
+    }
+    if (nm == "Judge") {
+        Player* newP = new Judge(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::judge;
+    }
+    if (nm == "Merchant") {
+        Player* newP = new Merchant(*oldP);
+        delete oldP;
+        players[idx] = newP;
+        return Role::merchant;
+    }
 
     static std::random_device rd;
     static std::mt19937       gen(rd());
@@ -79,14 +111,14 @@ void Game::launchGame(const sf::VideoMode& videoMode,int playerCount) {
     }
     players.clear();
     players.reserve(playerCount);
-    for (std::size_t i = 0; i < playerCount; ++i) {
+    for (int i = 0; i < playerCount; ++i) {
         players.push_back(new Player());
     }
 
     // name & assign
-    for (std::size_t i = 0; i < players.size(); ++i) {
+    for (int i = 0; i < (int)players.size(); ++i) {
         players[i]->setId(int(i));
-        if (!getsetName(players[i], i))
+        if (!getsetName(players[i], static_cast<std::size_t>(i)))
             return;   // cancelled
         assignRole(players, i);
         
@@ -466,7 +498,7 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
         box.setOutlineThickness(2.f);
         playerBoxes.push_back(box);
 
-        sf::Text info("", fontt, 14);///////sf::Text info("", /* your sf::Font& */ * /* your loaded font ptr */, 14);
+        sf::Text info("", fontt, 14);
         info.setFillColor(sf::Color::White);
         playerInfo.push_back(info);
     }
@@ -585,7 +617,7 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                         if (victim) {
                             victim->blockedFromArrest = true;
                         }
-                        players[currentPlayerIndex]->endTurn == true;
+                        players[currentPlayerIndex]->endTurn = true;
                     }
                     
                     //Baron invest:
@@ -642,13 +674,6 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                                 me->endTurn = blocked ? true : false;
                             }
                             break;
-                        //   case 2: // Bribe
-                        //     if (me->coins >= 4 && !me->endTurn) {
-                        //       me->bribe();
-                        //       me->blockedFromArrest = false;
-                        //       me->endTurn = true;
-                        //     }
-                        //     break;
                           case 3: // Arrest
                           if (!me->endTurn && !me->blockedFromArrest) {
                                 Player* victim = chooseVictim("Choose Arrest Target");
@@ -692,30 +717,20 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
                                         }
                                         me->endTurn = true;
 
-                                        // … check for winner …
+                                    int alive = 0;
+                                    for (Player* p : players)
+                                        if (p->role != Role::spectator) {
+                                            alive++;
+                                            Winner = p;
+                                        }
+                                    if (alive == 1) {
+                                        gameWindow.close();
+                                        showWinnerWindow();
+                                    }
                                     }
                                 }
                                 break;
-                        //   case 5: // Coup
-                        //         if (!me->endTurn && me->coins >= 7) {
-                        //         Player* victim = chooseVictim("Choose Coup Target");
-                        //         if (victim) {
-                        //             me->coup(victim);
-                        //             me->blockedFromArrest = false;
-                        //             me->endTurn = true;
-                        //             int alive = 0;
-                        //             for (Player* p : players)
-                        //                 if (p->role != Role::spectator) {
-                        //                     alive++;
-                        //                     Winner = p;
-                        //                 }
-                        //             if (alive == 1) {
-                        //                 gameWindow.close();
-                        //                 showWinnerWindow();
-                        //             }
-                        //         }
-                        //     }
-                        //     break;
+
                         }
                     }
                 }
@@ -735,7 +750,7 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
         gameWindow.clear(sf::Color(20,20,20));
 
         // draw player info boxes
-        for (std::size_t i = 0; i < players.size(); ++i) {
+        for (int i = 0; i < (int)players.size(); ++i) {
             gameWindow.draw(playerBoxes[i]);
             Player* p = players[i];
             std::string s = p->name + "\n" + p->roleToString(p->role) + "\n";
@@ -774,7 +789,6 @@ void Game::runningGame(const sf::VideoMode& videoMode) {
         gameWindow.draw(turnInfoTxt);
 
         if (showTurnInfo) {
-            // replace “Turn” label somewhere—e.g. top‐left:
             sf::Text info(
             "Turn: " + players[currentPlayerIndex]->name + " (" + players[currentPlayerIndex]->roleToString(players[currentPlayerIndex]->role) + ")  Coins:" + std::to_string(players[currentPlayerIndex]->coins),
             fontt, 16

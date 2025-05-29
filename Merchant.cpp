@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "Merchant.hpp"
 
 Merchant::Merchant(const std::string& name, int userid)
@@ -22,15 +23,3 @@ Merchant& Merchant::operator=(const Merchant& other) {
 }
 
 Merchant::~Merchant() = default;
-
-// void Merchant::startTurnBonus() {
-//     if (coins >= 3) {
-//         coins += 1;
-//     }
-// }
-
-// void Merchant::onArrestPenalty(Player* origin) {
-//     if (coins >= 2) {
-//         coins -= 2;
-//     }
-// }

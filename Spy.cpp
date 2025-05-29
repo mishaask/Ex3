@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include "Spy.hpp"
 
 Spy::Spy(const std::string& name, int userid)

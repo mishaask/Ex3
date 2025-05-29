@@ -1,3 +1,4 @@
+//mishaaskarov@gmail.com
 #include <filesystem>//debuggin
 #include "HomeScreen.hpp"
 
@@ -169,15 +170,6 @@ void HomeScreen::pollEvents()
                 default:
                     break;
 
-                // default:
-                // {
-                // // print every other event type to console
-                // std::cout
-                //   << "Unprogrammed event: type="
-                //   << this->ev.type
-                //   << std::endl;
-                // break;
-                // }
             }
         }
 
@@ -342,9 +334,9 @@ void HomeScreen::update()
 }
 
 /**
- * -clear old frame
- * -render objects
- * -display frame in window
+ * clear old frame
+ * render objects
+ * display frame in window
  * 
  * Renders the game objects
  */
