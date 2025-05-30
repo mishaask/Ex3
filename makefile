@@ -11,7 +11,7 @@ OBJS    = main.o HomeScreen.o Game.o Player.o Baron.o Governor.o Spy.o General.o
 TEST_SRC = test.cpp
 TEST_OBJ = test.o
 
-.PHONY: all clean
+.PHONY: all clean valgrind
 
 all: main test
 
@@ -20,6 +20,11 @@ main: $(OBJS)
 
 test: Game.o Player.o Baron.o Governor.o Spy.o General.o Judge.o Merchant.o $(TEST_OBJ)
 	g++ $(CXXFLAGS) -o test Game.o Player.o Baron.o Governor.o Spy.o General.o Judge.o Merchant.o test.o $(LDFLAGS)
+
+valgrind: test
+	@echo "Running tests under Valgrind..."
+	valgrind --leak-check=full --show-leak-kinds=all --error-exitcode=1 ./test
+
 
 # compile rules for each .cpp → .o
 main.o:       main.cpp        ; g++ $(CXXFLAGS) -c main.cpp
